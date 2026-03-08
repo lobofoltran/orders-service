@@ -3,8 +3,6 @@
 Order microservice with event-driven architecture, implementing
 **Transactional Outbox Pattern** and real-time **Analytics Projections**.
 
----
-
 ## Stack
 
 | Technology      | Version  | Purpose                             |
@@ -18,8 +16,6 @@ Order microservice with event-driven architecture, implementing
 | JUnit 5         | —        | Testing                             |
 | Mockito-Kotlin  | 5.4      | Mocks for unit tests                |
 | JaCoCo          | —        | Code coverage                       |
-
----
 
 ## Architecture
 
@@ -73,8 +69,6 @@ Client → POST /orders
                                 ├── Customer Analytics (upsert)
                                 └── Idempotency (processed_events)
 ```
-
----
 
 ## Project structure
 
@@ -140,8 +134,6 @@ src/main/kotlin/com/lobofoltran/order/
         ├── OrderController.kt
         └── AnalyticsController.kt
 ```
-
----
 
 ## API
 
@@ -236,8 +228,6 @@ Response `200 OK`:
 }
 ```
 
----
-
 ## Transactional Outbox
 
 Implementation of the **Transactional Outbox Pattern** to ensure consistency
@@ -261,8 +251,6 @@ between persistence and event publishing (eliminates the dual write problem).
 | Max retries              | 10                                            |
 | Concurrency              | `FOR UPDATE SKIP LOCKED` (horizontal scaling) |
 | No manual flush          | Hibernate batching preserved                  |
-
----
 
 ## Analytics Projections
 
@@ -295,8 +283,6 @@ Duplicate events are ignored via the `processed_analytics_events` table
 - Updates are **incremental** (`INSERT ... ON CONFLICT DO UPDATE`)
 - Complexity: **O(1)** per event (2 upserts + 1 check)
 
----
-
 ## Messaging
 
 | Configuration | Value                        |
@@ -305,8 +291,6 @@ Duplicate events are ignored via the `processed_analytics_events` table
 | Routing Key   | `order.created`              |
 | Queue         | `order.created.queue`        |
 | Broker        | RabbitMQ 3.13                |
-
----
 
 ## Running locally
 
@@ -364,8 +348,6 @@ curl -X POST http://localhost:8080/orders \
 curl http://localhost:8080/analytics/summary
 ```
 
----
-
 ## Testing
 
 ```bash
@@ -380,8 +362,6 @@ Test types:
 |-------------|---------------------|----------------------------------------------|
 | Unit        | JUnit 5 + Mockito   | Use cases, services, mappers, domain models  |
 | Integration | `@QuarkusTest`      | REST endpoints, persistence                  |
-
----
 
 ## Configuration
 
@@ -400,8 +380,6 @@ rabbitmq-port=5672
 # PostgreSQL
 quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/orders
 ```
-
----
 
 ## Living documentation
 
